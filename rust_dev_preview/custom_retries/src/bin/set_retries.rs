@@ -25,7 +25,7 @@ struct Opt {
 // Shows your buckets.
 async fn show_num_buckets(client: &Client) -> Result<(), Error> {
     let resp = client.list_buckets().send().await?;
-    let buckets = resp.buckets.unwrap_or_default();
+    let buckets = resp.buckets().unwrap_or_default();
 
     println!("Found {} buckets in all regions.", buckets.len());
 
@@ -75,7 +75,7 @@ async fn main() -> Result<(), Error> {
         // Start with the shared environment configuration.
         config::Builder::from(&shared_config)
             // Set max attempts.
-            // If my_tries is 1, there are no retries.
+            // If tries is 1, there are no retries.
             .retry_config(RetryConfig::new().with_max_attempts(tries))
             .build(),
     );
